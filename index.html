@@ -1,324 +1,466 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kumar Thermoplast - Innovative Packaging & Insulation Solutions</title>
+    <title>Kumar Thermoplast - Precision Engineered Protection Since 1997</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- ScrollReveal.js for animations -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <!-- Google <model-viewer> for 3D models -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background-color: #0d1117; /* GitHub Dark Dimmed */
+            color: #c9d1d9; /* Light gray text */
         }
-        .hero-section {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://placehold.co/1920x1080/e0e0e0/333?text=Thermocol+Products+Showcase');
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: minmax(150px, auto);
+            gap: 1rem;
+        }
+        .bento-item {
+            background-color: rgba(30, 36, 44, 0.7);
+            border: 1px solid #30363d;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .bento-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .bento-hero { grid-column: span 4; grid-row: span 2; }
+        @media (min-width: 768px) {
+            .bento-hero { grid-column: span 2; grid-row: span 2; }
+            .bento-item-2 { grid-column: span 2; }
+            .bento-item-3 { grid-column: span 1; grid-row: span 2; }
+            .bento-item-4 { grid-column: span 1; }
+            .bento-item-5 { grid-column: span 2; }
+        }
+        .glow-effect {
+            position: absolute; pointer-events: none; z-index: -1;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, rgba(37, 99, 235, 0) 60%);
+            border-radius: 50%; transition: opacity 0.3s; opacity: 0;
+        }
+        .bento-item:hover .glow-effect { opacity: 1; }
+        .sticky-nav {
+            position: sticky; top: 0; z-index: 50;
+            background-color: rgba(13, 17, 23, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #30363d;
+        }
+        .scrolly-container { height: 300vh; position: relative; }
+        .scrolly-sticky { position: sticky; top: 25vh; height: 50vh; overflow: hidden; }
+        .scrolly-image { position: absolute; transition: opacity 0.5s ease-in-out; width: 100%; height: 100%; object-fit: contain; }
+        .tab-button { @apply px-4 py-2 text-lg font-semibold text-gray-400 border-b-2 border-transparent hover:text-white hover:border-blue-500 transition-all; }
+        .tab-button.active { @apply text-white border-blue-500; }
+        .application-card {
             background-size: cover;
             background-position: center;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            position: relative;
+            min-height: 300px;
         }
-        .section-title {
-            @apply text-3xl font-bold text-gray-800 text-center mb-2;
+        .application-card .overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            padding: 1.5rem;
+            transform: translateY(30%);
+            opacity: 0;
+            transition: all 0.4s ease;
         }
-        .section-subtitle {
-            @apply text-lg text-gray-500 text-center mb-12;
+        .application-card:hover .overlay {
+            transform: translateY(0);
+            opacity: 1;
         }
-        .nav-link {
-             @apply text-gray-600 hover:text-blue-600 transition-colors duration-300;
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
         }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="w-full overflow-x-hidden">
 
-    <!-- Header -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <a href="#" class="text-2xl font-bold text-blue-600">
-                    Kumar Thermoplast
-                </a>
-                
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="nav-link">Home</a>
-                    <a href="#about" class="nav-link">About Us</a>
-                    <a href="#products" class="nav-link">Products</a>
-                    <a href="#applications" class="nav-link">Applications</a>
-                    <a href="#contact" class="nav-link">Contact Us</a>
-                </div>
-
-                <a href="#contact" class="hidden md:inline-block bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300">
-                    Request a Quote
-                </a>
-
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden">
-                    <button id="mobile-menu-button" class="text-gray-600 focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                        </svg>
-                    </button>
-                </div>
+    <!-- HEADER & NAVIGATION -->
+    <header class="sticky-nav">
+        <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="#" class="text-2xl font-bold text-white">Kumar Thermoplast</a>
+            <div class="hidden md:flex items-center space-x-8 font-medium">
+                <a href="#applications" class="text-gray-400 hover:text-white transition-colors">Applications</a>
+                <a href="#about" class="text-gray-400 hover:text-white transition-colors">About Us</a>
+                <a href="#products" class="text-gray-400 hover:text-white transition-colors">Products</a>
+                <a href="#contact" class="text-gray-400 hover:text-white transition-colors">Contact</a>
             </div>
-
-            <!-- Mobile Navigation -->
-            <div id="mobile-menu" class="hidden md:hidden mt-4">
-                <a href="#home" class="block py-2 px-4 text-sm nav-link">Home</a>
-                <a href="#about" class="block py-2 px-4 text-sm nav-link">About Us</a>
-                <a href="#products" class="block py-2 px-4 text-sm nav-link">Products</a>
-                <a href="#applications" class="block py-2 px-4 text-sm nav-link">Applications</a>
-                <a href="#contact" class="block py-2 px-4 text-sm nav-link">Contact Us</a>
-                <a href="#contact" class="mt-2 block w-full text-center bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300">
-                    Request a Quote
-                </a>
-            </div>
+            <a href="#contact" class="hidden md:inline-block bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">Request a Quote</a>
+            <button id="mobile-menu-button" class="md:hidden text-gray-400"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
         </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+             <a href="#applications" class="block py-2 text-gray-400 hover:text-white rounded">Applications</a>
+             <a href="#about" class="block py-2 text-gray-400 hover:text-white rounded">About Us</a>
+             <a href="#products" class="block py-2 text-gray-400 hover:text-white rounded">Products</a>
+             <a href="#contact" class="block py-2 text-gray-400 hover:text-white rounded">Contact</a>
+        </div>
     </header>
 
-    <main>
-        <!-- Hero Section -->
-        <section id="home" class="hero-section text-white">
-            <div class="container mx-auto px-6 py-32 text-center">
-                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4">Shaping Protection, Delivering Excellence</h1>
-                <p class="text-lg md:text-xl text-gray-200 mb-8 max-w-3xl mx-auto">Your trusted partner for high-quality, versatile, and cost-effective thermocol (EPS) solutions for packaging, insulation, and beyond.</p>
-                <a href="#products" class="bg-white text-blue-600 font-bold py-3 px-8 rounded-lg text-lg hover:bg-gray-200 transition-colors duration-300">Explore Our Products</a>
+    <main class="container mx-auto px-6 py-16">
+
+        <!-- BENTO GRID HERO SECTION -->
+        <section id="home" class="bento-grid">
+            <div class="bento-item bento-hero flex flex-col justify-between reveal">
+                <div class="glow-effect"></div>
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-white leading-tight">Precision Engineered Protection.</h1>
+                    <p class="mt-4 text-lg">From temperature-sensitive pharmaceuticals to intricate electronics, we design and manufacture custom EPS thermocol solutions that guarantee your product's integrity from your factory to your customer.</p>
+                </div>
+                <a href="#contact" class="mt-8 bg-white text-gray-900 font-bold py-3 px-6 rounded-lg self-start hover:bg-gray-200 transition-all">Start Your Project</a>
+            </div>
+            <div class="bento-item bento-item-2 reveal">
+                <div class="glow-effect"></div>
+                <h2 class="text-xl font-bold text-white mb-4">Engineered for Demanding Industries</h2>
+                <div class="flex flex-wrap gap-4 text-sm">
+                    <span class="bg-gray-700 text-gray-300 px-3 py-1 rounded-full">Fisheries & Seafood</span>
+                    <span class="bg-gray-700 text-gray-300 px-3 py-1 rounded-full">Pharmaceuticals</span>
+                    <span class="bg-gray-700 text-gray-300 px-3 py-1 rounded-full">Automotive Parts</span>
+                    <span class="bg-gray-700 text-gray-300 px-3 py-1 rounded-full">Electronics</span>
+                    <span class="bg-gray-700 text-gray-300 px-3 py-1 rounded-full">Horticulture</span>
+                </div>
+            </div>
+            <div class="bento-item bento-item-3 reveal">
+                 <div class="glow-effect"></div>
+                <h2 class="text-xl font-bold text-white mb-2">A Perfect Fit, Every Time.</h2>
+                <p class="text-sm mb-4">See how our custom moulds provide edge-to-edge protection. Drag to interact.</p>
+                <model-viewer src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" alt="3D model of a custom thermocol mould" auto-rotate camera-controls shadow-intensity="1" style="width: 100%; height: 65%; background-color: transparent;"></model-viewer>
+            </div>
+            <div class="bento-item bento-item-4 reveal">
+                <div class="glow-effect"></div>
+                <h2 class="text-xl font-bold text-white mb-4">Material Science at its Core</h2>
+                <ul class="space-y-2 text-sm">
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>High Compressive Strength</li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Superior Thermal Insulation</li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Vibration Dampening</li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Moisture Resistant</li>
+                </ul>
+            </div>
+            <div class="bento-item bento-item-5 flex flex-col md:flex-row items-center justify-between reveal">
+                 <div class="glow-effect"></div>
+                <div>
+                    <h2 class="text-xl font-bold text-white">Have a custom project?</h2>
+                    <p>We craft solutions for any shape and size.</p>
+                </div>
+                <a href="#contact" class="mt-4 md:mt-0 bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-700 transition-all">Get a Custom Quote</a>
             </div>
         </section>
 
-        <!-- About Us Section -->
-        <section id="about" class="py-20 bg-white">
-            <div class="container mx-auto px-6">
-                <h2 class="section-title">About Kumar Thermoplast</h2>
-                <p class="section-subtitle">Pioneering Polystyrene Solutions Since [Year]</p>
-                <div class="flex flex-col md:flex-row items-center gap-12">
-                    <div class="md:w-1/2">
-                        <img src="https://placehold.co/600x400/3B82F6/FFFFFF?text=Our+Facility" alt="Our Manufacturing Facility" class="rounded-lg shadow-xl w-full">
+        <!-- APPLICATIONS IN ACTION SECTION -->
+        <section id="applications" class="py-24">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-white reveal">Applications in Action</h2>
+                <p class="text-lg text-gray-400 mt-4 max-w-2xl mx-auto reveal">From preserving freshness to protecting fragile components, our solutions are trusted across critical industries.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="application-card reveal" style="background-image: url('https://placehold.co/600x400/1e40af/ffffff?text=Fisheries')">
+                    <div class="overlay">
+                        <h3 class="text-2xl font-bold text-white">Fisheries & Seafood Export</h3>
+                        <p class="text-gray-300 mt-2">Maintaining the cold chain with insulated EPS boxes that preserve freshness from port to destination.</p>
                     </div>
-                    <div class="md:w-1/2 text-gray-600 space-y-4">
-                        <p class="text-lg">Welcome to Kumar Thermoplast, a leading manufacturer and supplier of Expanded Polystyrene (EPS) products. With decades of industry experience, we are dedicated to providing innovative and reliable solutions that meet the diverse needs of our clients.</p>
-                        <p>Our state-of-the-art facility and commitment to quality ensure that every product, from custom-moulded packaging to large insulation sheets, is crafted to the highest standards of performance and durability.</p>
-                        <p>We believe in building lasting partnerships through exceptional customer service, on-time delivery, and a continuous drive for innovation.</p>
+                </div>
+                <div class="application-card reveal" style="background-image: url('https://placehold.co/600x400/1d4ed8/ffffff?text=Pharma')">
+                     <div class="overlay">
+                        <h3 class="text-2xl font-bold text-white">Pharmaceuticals</h3>
+                        <p class="text-gray-300 mt-2">Ensuring integrity of temperature-sensitive vaccines and medicines with validated cold chain packaging.</p>
+                    </div>
+                </div>
+                <div class="application-card reveal" style="background-image: url('https://placehold.co/600x400/2563eb/ffffff?text=Electronics')">
+                     <div class="overlay">
+                        <h3 class="text-2xl font-bold text-white">Electronics</h3>
+                        <p class="text-gray-300 mt-2">Anti-static, precision-fit moulds that protect sensitive electronic components from shock and vibration.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Products Section -->
-        <section id="products" class="py-20">
-            <div class="container mx-auto px-6">
-                <h2 class="section-title">Our Core Products</h2>
-                <p class="section-subtitle">Versatile solutions for every need.</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Product Card 1 -->
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
-                        <img src="https://placehold.co/400x300/e0f2fe/1e3a8a?text=Thermocol+Boxes" alt="Thermocol Boxes" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Thermocol Boxes</h3>
-                            <p class="text-gray-600 text-sm">Lightweight and durable boxes ideal for shipping electronics, pharmaceuticals, and perishable goods. Excellent thermal insulation and shock absorption.</p>
+        <!-- ABOUT US SECTION -->
+        <section id="about" class="py-24">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-white reveal">Two Decades of Engineering Excellence</h2>
+                <p class="text-lg text-gray-400 mt-4 max-w-3xl mx-auto reveal">Kumar Thermoplast is more than a manufacturer; we are a team of engineers, innovators, and problem-solvers dedicated to delivering excellence since 1997.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bento-item reveal text-center">
+                    <h3 class="text-xl font-bold text-white">Our History</h3>
+                    <p class="mt-2 text-sm text-gray-400">Incorporated on May 23, 1997, we have grown from a local manufacturer to a trusted partner for industries across India, known for our unwavering commitment to quality.</p>
+                </div>
+                <div class="bento-item reveal text-center">
+                    <h3 class="text-xl font-bold text-white">Our Mission</h3>
+                    <p class="mt-2 text-sm text-gray-400">To lead with innovation, engineering superior thermoplastic and thermocol solutions that provide maximum value and satisfaction to our customers.</p>
+                </div>
+                <div class="bento-item reveal text-center">
+                    <h3 class="text-xl font-bold text-white">Our Leadership</h3>
+                    <p class="mt-2 text-sm text-gray-400">Guided by Directors Mr. Amod, Binod, & Pramod Kumar Jaiswal, and MD Mr. P.K. Jaiswal, our leadership ensures a culture of excellence.</p>
+                </div>
+                <div class="bento-item reveal text-center">
+                    <h3 class="text-xl font-bold text-white">Our Infrastructure</h3>
+                    <p class="mt-2 text-sm text-gray-400">Our state-of-the-art plant in Maheshtala, Kolkata features dedicated units for production, quality control, and warehousing to ensure timely delivery.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- INTERACTIVE PRODUCTS SECTION -->
+        <section id="products" class="py-24">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-white reveal">Explore Our Product Architecture</h2>
+                <p class="text-lg text-gray-400 mt-4 max-w-2xl mx-auto reveal">Select a product category to view technical details and interact with a 3D model.</p>
+            </div>
+            <!-- Tab Buttons -->
+            <div class="flex flex-wrap justify-center gap-2 md:gap-8 mb-12 reveal">
+                <button class="tab-button active" data-tab="boxes">Boxes</button>
+                <button class="tab-button" data-tab="sheets">Sheets</button>
+                <button class="tab-button" data-tab="moulds">Custom Moulds</button>
+            </div>
+            <!-- Tab Content -->
+            <div id="tab-content">
+                <!-- Boxes Content -->
+                <div class="tab-pane active" id="boxes">
+                    <div class="grid md:grid-cols-2 gap-12 items-center bento-item">
+                        <div class="h-96"><model-viewer src="https://modelviewer.dev/shared-assets/models/box.glb" alt="3D model of a thermocol box" ar camera-controls shadow-intensity="1" style="width:100%; height:100%;"></model-viewer></div>
+                        <div>
+                            <h3 class="text-3xl font-bold text-white">Insulated EPS Boxes</h3>
+                            <p class="mt-4 text-gray-400">Our insulated boxes are the industry standard for cold chain logistics, offering superior thermal performance to protect perishable goods.</p>
+                            <ul class="mt-6 space-y-3 text-sm">
+                                <li class="font-semibold">Dimensions: <span class="font-normal text-gray-400">Fully Customizable</span></li>
+                                <li class="font-semibold">Density: <span class="font-normal text-gray-400">15 - 30 kg/m³</span></li>
+                                <li class="font-semibold">Key Feature: <span class="font-normal text-gray-400">Excellent R-value for temperature stability</span></li>
+                            </ul>
                         </div>
                     </div>
-                    <!-- Product Card 2 -->
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
-                        <img src="https://placehold.co/400x300/dbeafe/1e3a8a?text=Thermocol+Sheets" alt="Thermocol Sheets" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Thermocol Sheets</h3>
-                            <p class="text-gray-600 text-sm">High-density sheets for construction, insulation, and various industrial applications. Available in multiple thicknesses and sizes.</p>
+                </div>
+                <!-- Sheets Content -->
+                <div class="tab-pane hidden" id="sheets">
+                    <div class="grid md:grid-cols-2 gap-12 items-center bento-item">
+                        <div class="h-96"><model-viewer src="https://modelviewer.dev/shared-assets/models/cube.glb" alt="3D model of a thermocol sheet" ar camera-controls shadow-intensity="1" style="width:100%; height:100%;"></model-viewer></div>
+                        <div>
+                           <h3 class="text-3xl font-bold text-white">High-Density EPS Sheets</h3>
+                            <p class="mt-4 text-gray-400">Versatile and rigid sheets for building insulation, void filling in construction, and protective packaging layers.</p>
+                            <ul class="mt-6 space-y-3 text-sm">
+                                <li class="font-semibold">Dimensions: <span class="font-normal text-gray-400">Up to 2000x1000mm, custom thickness</span></li>
+                                <li class="font-semibold">Density: <span class="font-normal text-gray-400">10 - 45 kg/m³</span></li>
+                                <li class="font-semibold">Key Feature: <span class="font-normal text-gray-400">High compressive strength for load-bearing uses</span></li>
+                            </ul>
                         </div>
                     </div>
-                    <!-- Product Card 3 -->
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
-                        <img src="https://placehold.co/400x300/e0f2fe/1e3a8a?text=Thermocol+Balls" alt="Thermocol Balls" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Thermocol Balls</h3>
-                            <p class="text-gray-600 text-sm">Tiny, versatile EPS beads used as fillers for bean bags, toys, and lightweight concrete, as well as for decorative purposes.</p>
-                        </div>
-                    </div>
-                    <!-- Product Card 4 -->
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
-                        <img src="https://placehold.co/400x300/dbeafe/1e3a8a?text=Custom+Moulds" alt="Custom Moulded Products" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Custom Moulds</h3>
-                            <p class="text-gray-600 text-sm">We design and manufacture custom-shaped EPS packaging to provide perfect protection for your unique products.</p>
+                </div>
+                <!-- Moulds Content -->
+                <div class="tab-pane hidden" id="moulds">
+                    <div class="grid md:grid-cols-2 gap-12 items-center bento-item">
+                        <div class="h-96"><model-viewer src="https://modelviewer.dev/shared-assets/models/motor.glb" alt="3D model of a custom thermocol mould for a motor" ar camera-controls shadow-intensity="1" style="width:100%; height:100%;"></model-viewer></div>
+                        <div>
+                           <h3 class="text-3xl font-bold text-white">Bespoke Moulded Solutions</h3>
+                            <p class="mt-4 text-gray-400">We use your product's CAD data to engineer a perfect-fit packaging solution that eliminates movement and absorbs impact.</p>
+                            <ul class="mt-6 space-y-3 text-sm">
+                                <li class="font-semibold">Dimensions: <span class="font-normal text-gray-400">Engineered to your exact product specifications</span></li>
+                                <li class="font-semibold">Density: <span class="font-normal text-gray-400">Variable, based on protection requirements</span></li>
+                                <li class="font-semibold">Key Feature: <span class="font-normal text-gray-400">Precision fit drastically reduces in-transit damage</span></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Applications Section -->
-        <section id="applications" class="py-20 bg-white">
-            <div class="container mx-auto px-6">
-                <h2 class="section-title">Industries We Serve</h2>
-                <p class="section-subtitle">Providing essential products for a wide range of sectors.</p>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 text-center">
-                    <!-- Industry Item -->
-                    <div class="flex flex-col items-center p-4">
-                        <div class="bg-blue-100 p-4 rounded-full mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-                        </div>
-                        <h4 class="font-semibold text-gray-700">Electronics</h4>
-                    </div>
-                    <!-- Industry Item -->
-                    <div class="flex flex-col items-center p-4">
-                        <div class="bg-blue-100 p-4 rounded-full mb-4">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
-                        </div>
-                        <h4 class="font-semibold text-gray-700">Fisheries & Marine</h4>
-                    </div>
-                    <!-- Industry Item -->
-                    <div class="flex flex-col items-center p-4">
-                        <div class="bg-blue-100 p-4 rounded-full mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
-                        </div>
-                        <h4 class="font-semibold text-gray-700">Pharmaceuticals</h4>
-                    </div>
-                    <!-- Industry Item -->
-                    <div class="flex flex-col items-center p-4">
-                        <div class="bg-blue-100 p-4 rounded-full mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
-                        </div>
-                        <h4 class="font-semibold text-gray-700">Agriculture</h4>
-                    </div>
-                     <!-- Industry Item -->
-                    <div class="flex flex-col items-center p-4">
-                        <div class="bg-blue-100 p-4 rounded-full mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.9l-7.2-6.5C3.3 12.8 2 10.4 2 8c0-4.4 3.6-8 8-8s8 3.6 8 8c0 2.4-1.3 4.8-2.8 6.4L12 20.9z"></path><circle cx="12" cy="8" r="2"></circle></svg>
-                        </div>
-                        <h4 class="font-semibold text-gray-700">Construction</h4>
-                    </div>
+        <!-- INNOVATIVE CONTACT HUB -->
+        <section id="contact" class="py-24">
+            <div class="text-center mb-16">
+                 <h2 class="text-4xl font-extrabold text-white reveal">Connect With Our Engineering Team</h2>
+                 <p class="text-lg text-gray-400 mt-4 max-w-2xl mx-auto reveal">Choose the most convenient way to begin your project. We're ready to help.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Option 1: Detailed Quote -->
+                <div class="bento-item reveal text-center flex flex-col justify-between">
+                    <h3 class="text-2xl font-bold text-white">Request a Detailed Quote</h3>
+                    <p class="mt-2">Ideal for when you have your specifications ready. Get a comprehensive pricing and timeline breakdown.</p>
+                    <button id="open-quote-modal-btn" class="mt-6 bg-blue-600 text-white font-semibold w-full px-6 py-3 rounded-lg hover:bg-blue-700 transition-all">Open Quote Form</button>
+                </div>
+                <!-- Option 2: Schedule Call -->
+                <div class="bento-item reveal text-center flex flex-col justify-between">
+                    <h3 class="text-2xl font-bold text-white">Schedule a Consultation</h3>
+                    <p class="mt-2">Have a complex project? Discuss your requirements directly with one of our packaging engineers.</p>
+                    <!-- REPLACE with your actual Calendly link -->
+                    <a href="https://calendly.com/" target="_blank" class="mt-6 bg-gray-600 text-white font-semibold w-full px-6 py-3 rounded-lg hover:bg-gray-700 transition-all">Book a 15-Min Call</a>
+                </div>
+                <!-- Option 3: WhatsApp -->
+                <div class="bento-item reveal text-center flex flex-col justify-between">
+                    <h3 class="text-2xl font-bold text-white">Quick Question?</h3>
+                    <p class="mt-2">For general inquiries or a faster response, send us a message directly on WhatsApp.</p>
+                    <!-- REPLACE 91XXXXXXXXXX with your actual WhatsApp number -->
+                    <a href="https://wa.me/919876543210" target="_blank" class="mt-6 bg-green-500 text-white font-semibold w-full px-6 py-3 rounded-lg hover:bg-green-600 transition-all">Chat on WhatsApp</a>
                 </div>
             </div>
         </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="py-20">
-            <div class="container mx-auto px-6">
-                 <h2 class="section-title">Get In Touch</h2>
-                <p class="section-subtitle">We're here to help. Contact us for quotes, queries, or custom orders.</p>
-                <div class="bg-white p-8 rounded-xl shadow-2xl">
-                    <div class="flex flex-col lg:flex-row gap-12">
-                        <!-- Contact Form -->
-                        <div class="lg:w-1/2">
-                            <h3 class="text-2xl font-bold text-gray-800 mb-6">Send us a Message</h3>
-                            <form action="#" method="POST">
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                    <div>
-                                        <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
-                                        <input type="text" name="name" id="name" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <div>
-                                        <label for="company" class="block text-sm font-medium text-gray-700">Company</label>
-                                        <input type="text" name="company" id="company" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                </div>
-                                <div class="mt-6">
-                                    <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-                                    <input type="email" name="email" id="email" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                </div>
-                                <div class="mt-6">
-                                    <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
-                                    <textarea name="message" id="message" rows="5" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
-                                </div>
-                                <div class="mt-6">
-                                    <button type="submit" class="w-full bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                        Submit Inquiry
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                        <!-- Contact Info & Map -->
-                        <div class="lg:w-1/2">
-                            <h3 class="text-2xl font-bold text-gray-800 mb-6">Contact Information</h3>
-                             <div class="space-y-4 text-gray-600">
-                                <p class="flex items-start">
-                                    <svg class="w-6 h-6 mr-3 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                    <span>[Your Company Address],<br>Kolkata, West Bengal, [Pincode]</span>
-                                </p>
-                                <p class="flex items-center">
-                                     <svg class="w-6 h-6 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                                    <span>+91 [Your Phone Number]</span>
-                                </p>
-                                <p class="flex items-center">
-                                    <svg class="w-6 h-6 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                                    <span>sales@kumarthermoplast.com</span>
-                                </p>
-                            </div>
-                            <div class="mt-8">
-                                <img src="https://placehold.co/600x400/e0e0e0/333?text=Google+Map+Location" alt="Company Location" class="rounded-lg shadow-md w-full h-64 object-cover">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white">
-        <div class="container mx-auto px-6 py-10">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <h4 class="text-xl font-bold mb-4">Kumar Thermoplast</h4>
-                    <p class="text-gray-400">Your leading partner in innovative and protective packaging solutions.</p>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#about" class="text-gray-400 hover:text-white">About Us</a></li>
-                        <li><a href="#products" class="text-gray-400 hover:text-white">Products</a></li>
-                        <li><a href="#applications" class="text-gray-400 hover:text-white">Applications</a></li>
-                        <li><a href="#contact" class="text-gray-400 hover:text-white">Contact</a></li>
-                    </ul>
-                </div>
-                 <div>
-                    <h4 class="text-lg font-semibold mb-4">Our Products</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#products" class="text-gray-400 hover:text-white">Thermocol Boxes</a></li>
-                        <li><a href="#products" class="text-gray-400 hover:text-white">Thermocol Sheets</a></li>
-                        <li><a href="#products" class="text-gray-400 hover:text-white">Thermocol Balls</a></li>
-                        <li><a href="#products" class="text-gray-400 hover:text-white">Custom Moulds</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Connect With Us</h4>
-                     <!-- Add Social media links here later -->
-                    <p class="text-gray-400">Follow us on social media for the latest updates and news.</p>
-                </div>
+    <footer class="border-t border-gray-800 text-sm">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <div class="mb-4">
+                <p class="font-bold">Kumar Thermoplast</p>
+                <p>Roypur, Banerjee Para, Maheshtala, South 24 Parganas</p>
+                <p>West Bengal, PIN: 700141, India</p>
             </div>
-            <div class="mt-10 border-t border-gray-700 pt-6 text-center text-gray-500 text-sm">
-                <p>&copy; <span id="year"></span> Kumar Thermoplast. All Rights Reserved.</p>
+            <div class="mb-4 text-xs text-gray-500">
+                <p><strong>CIN:</strong> U25209WB1997PTC084416 | <strong>GSTIN:</strong> 19AABCK3076C1ZQ | <strong>Incorporated:</strong> May 23, 1997</p>
             </div>
+            <p>&copy; <span id="year"></span> Kumar Thermoplast. All Rights Reserved.</p>
         </div>
     </footer>
 
+    <!-- QUOTE REQUEST MODAL -->
+    <div id="quote-form-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content bento-item w-full max-w-2xl max-h-full overflow-y-auto transform scale-95">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-white">Request a Detailed Quote</h2>
+                <button id="close-quote-modal-btn" class="text-gray-400 hover:text-white text-3xl leading-none">&times;</button>
+            </div>
+            <!-- REPLACE with your actual Formspree endpoint -->
+            <form action="https://formspree.io/f/your_form_id" method="POST">
+                <input type="text" name="_honey" style="display:none"> <!-- Spam protection -->
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <input type="text" name="name" placeholder="Full Name" required class="form-input">
+                    <input type="email" name="email" placeholder="Email Address" required class="form-input">
+                </div>
+                <div class="mt-4">
+                    <select name="product_type" required class="form-input">
+                        <option value="" disabled selected>Select Product Type...</option>
+                        <option value="Boxes">Insulated Boxes</option>
+                        <option value="Sheets">High-Density Sheets</option>
+                        <option value="Custom Mould">Custom Mould</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-4 mt-4">
+                     <input type="text" name="dimensions" placeholder="Required Dimensions (e.g., LxWxH)" class="form-input">
+                     <input type="number" name="quantity" placeholder="Estimated Quantity" class="form-input">
+                </div>
+                <div class="mt-4">
+                    <textarea name="requirements" rows="4" placeholder="Describe your requirements. Please include any specific needs like density, anti-static properties, etc." class="form-input"></textarea>
+                </div>
+                <div class="mt-6 text-right">
+                    <button type="submit" class="bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 transition-all">Submit Quote Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <style>
+        .form-input { 
+            @apply w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+        }
+    </style>
 
     <script>
-        // Mobile menu toggle
+    document.addEventListener('DOMContentLoaded', function() {
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        
+        ScrollReveal().reveal('.reveal', { distance: '50px', duration: 1000, easing: 'cubic-bezier(0.5, 0, 0, 1)', interval: 100, origin: 'bottom', reset: false });
 
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+        const bentoItems = document.querySelectorAll('.bento-item');
+        bentoItems.forEach(item => {
+            const glow = item.querySelector('.glow-effect');
+            if(!glow) return;
+            item.addEventListener('mousemove', (e) => {
+                const rect = item.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                glow.style.left = `${x - glow.offsetWidth / 2}px`;
+                glow.style.top = `${y - glow.offsetHeight / 2}px`;
+            });
         });
 
-        // Set current year in footer
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        // Smooth scroll for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                // If it's a mobile nav link, close the menu
-                if(mobileMenu.contains(this) && !mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.add('hidden');
-                }
-                
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                tabPanes.forEach(pane => {
+                    pane.style.display = pane.id === tabId ? 'block' : 'none';
+                    pane.classList.toggle('active', pane.id === tabId);
+                    pane.classList.toggle('hidden', pane.id !== tabId);
                 });
             });
         });
+
+        const scrollyContainer = document.querySelector('.scrolly-container');
+        if(scrollyContainer) {
+            const img1 = document.getElementById('scrolly-img-1');
+            const img2 = document.getElementById('scrolly-img-2');
+            const img3 = document.getElementById('scrolly-img-3');
+            window.addEventListener('scroll', () => {
+                const rect = scrollyContainer.getBoundingClientRect();
+                const scrollPercent = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+                if (scrollPercent < 0.33) {
+                    img1.style.opacity = '1'; img2.style.opacity = '0'; img3.style.opacity = '0';
+                } else if (scrollPercent >= 0.33 && scrollPercent < 0.66) {
+                    img1.style.opacity = '0'; img2.style.opacity = '1'; img3.style.opacity = '0';
+                } else if (scrollPercent >= 0.66) {
+                    img1.style.opacity = '0'; img2.style.opacity = '0'; img3.style.opacity = '1';
+                }
+            });
+        }
+
+        // --- QUOTE MODAL LOGIC ---
+        const modal = document.getElementById('quote-form-modal');
+        const openBtn = document.getElementById('open-quote-modal-btn');
+        const closeBtn = document.getElementById('close-quote-modal-btn');
+        
+        const openModal = () => {
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.querySelector('.modal-content').classList.remove('scale-95');
+        };
+
+        const closeModal = () => {
+            modal.classList.add('opacity-0');
+            modal.querySelector('.modal-content').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('pointer-events-none');
+            }, 300); // Wait for transition to finish
+        };
+
+        openBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // --- DYNAMIC FOOTER YEAR ---
+        document.getElementById('year').textContent = new Date().getFullYear();
+    });
     </script>
 </body>
 </html>
